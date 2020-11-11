@@ -1,0 +1,26 @@
+.wrapper {
+	text-align: center;
+	background-color: #00C090;
+	padding-bottom: 50px;
+}
+
+.imgcontainer {
+	position: relative;
+}
+
+.logintext {
+	left: 0;
+	top: 30px;
+	width: 100%;
+}
+
+.loginbutton {
+	width: 250px;
+	font-size: 20px;
+	background-color: #3375D9;
+	color: #3AEE25;
+}
+
+.psw a:link {
+	color: #000000;
+}
