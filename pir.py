@@ -1,21 +1,24 @@
 import RPi.GPIO as GPIO
-import time
-import sys
+from datetime import datetime
+import cv2
 
-GPIO.setmode(GPIO.BOARD)
-PIR_PIN = 8
-GPIO.setup(PIR_PIN, GPIO.IN)
+class Pir:
+    motion_flag = False
 
-try:
-        print ("PIR Module Test (CTRL+C to exit)")
-        time.sleep(.01)
-        print ("Ready")
-        while True:
-                if GPIO.input(PIR_PIN):
-	                print ("Motion Detected!")
-	                time.sleep(1)
-			pirstate='on'
-except KeyboardInterrupt:
-        print  ("Quit")
-        GPIO.cleanup()
+    def __init__(self, pin):
+        self.pin = pin
 
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(pin, GPIO.IN)
+
+    def pic_on_motion(self, frame):
+        if GPIO.input(self.pin):
+            if not self.motion_flag:
+                cv2.imwrite("snapshot/{}.jpg".format(datetime.now().strftime("%m-%d-%Y--%H:%M:%S")), frame)
+                cv2.imwrite("snapshot/latest.jpg", frame)
+                print("Motion detected. Picture taken!")
+            self.motion_flag = True
+        else:
+            if self.motion_flag:
+                print("Motion stopped.")
+            self.motion_flag = False
