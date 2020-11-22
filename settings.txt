@@ -1,0 +1,14 @@
+{
+    "videolog": {
+        "enabled": "on",
+        "path": "\/home\/pi\/SecuritySystem\/log\/video"
+    },
+    "motionlog": {
+        "enabled": "on",
+        "path": "\/home\/pi\/SecuritySystem\/log\/motion"
+    },
+    "activitylog": {
+        "enabled": "on",
+        "path": "\/home\/pi\/SecuritySystem\/log\/activity"
+    }
+}

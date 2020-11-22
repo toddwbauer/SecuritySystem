@@ -14,7 +14,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
 	jQuery(document).ready(function(){
-		jQuery("#navbar").load("navbar.html");
+		jQuery("#navbar").load("navbar.php");
 	});
 	</script> 
 </head>

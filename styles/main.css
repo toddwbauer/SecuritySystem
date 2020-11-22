@@ -1,0 +1,7 @@
+.videocontainer {
+	width: 640px;
+	height: 480px;
+	overflow: hidden;
+	background-color: #00C090;
+	border: transparent;
+}

@@ -8,8 +8,8 @@
 	<meta name="description" content="Home Security Login Page">
 	<meta name="author" content="Todd Bauer, Gerardo Ortiz">
 
-	<link rel="stylesheet" href="login.css">
-	<link rel="stylesheet" href="all.css">
+	<link rel="stylesheet" href="styles/login.css">
+	<link rel="stylesheet" href="styles/all.css">
 </head>
 
 <body>
