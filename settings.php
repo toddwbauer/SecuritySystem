@@ -29,7 +29,7 @@
             $file = "settings.txt";
             $arr_settings = json_decode(file_get_contents($file), true);
         ?>
-		<form action="settings_test.php" method="POST">
+		<form action="settings_submit.php" method="POST">
 			<label for="videolog">Enable Video Logging</label>
 			<input type="checkbox" name="videolog" <?php if($arr_settings["videolog"]["enabled"] == "on") echo checked; ?> />
 			<br/><br/>
