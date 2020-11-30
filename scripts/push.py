@@ -3,69 +3,53 @@ import urllib3
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 import http.client, urllib
+import base64
+import cv2
 
-urllib3.disable_warnings()
-init("fZf2wDKtvbvUIJJYPp8Q")
+# The PushToPhone class is responsible for contacting the Pushsafer service,
+# which pushes a notification to both iOS and Android devices. This allows
+# a program to send a notification to a phone device with a picture attachment,
+# which is encoded as a base64 string.
+#
+# Authors: Todd Bauer, Gerardo Ortiz
+# November 28, 2020
 
-#not used
-def sendNot2(x):
-    pic = x
-    conn = http.client.HTTPSConnection("pushsafer.com:443")
-    conn.request("POST", "/api",
-      urllib.parse.urlencode({
-        "k": "fZf2wDKtvbvUIJJYPp8Q",                # Your Private or Alias Key
-        "m": "Motion not2",                   # Message Text
-        "t": "Alert",                     # Title of message
-        "i": "1",                      # Icon number 1-98
-        "s": "0",                     # Sound number 0-28
-        "v": "1",                 # Vibration number 0-3
-        "p": pic,                   # Picture Data URL with Base64-encoded string
-      }), { "Content-type": "application/x-www-form-urlencoded" })
-    response = conn.getresponse()
-
-    print(response.status, response.reason)
-    data = response.read()
-    print(data)
+class PushToPhone:
     
+    def __init__(self, key):
+        urllib3.disable_warnings()
+        
+        self.key = key
+        self.formatString = "data:image/jpeg;base64,{}"
+        init(key)
+        
     # Passes info to pushsafer & sends notification to phone
-def sendNot(x):
-    url = "https://www.pushsafer.com/api"
-    pic = x
-    post_fields = {
-        "t" : "Alert2",
-        "m" : "Motion detected pic for details",
-        "s" : "0",
-        "v" : "1",
-        "i" : "1",
-        "c" : "",
-        "d" : "29780",
-        "u" : "https://www.pushsafer.com",
-        "ut" : "Open Pushsafer",
-        "k" : "fZf2wDKtvbvUIJJYPp8Q",
-        "p" : pic
-}
-    request = Request(url, urlencode(post_fields).encode())
-    json = urlopen(request).read().decode()
-    
-    
-    #not used
-def sendNotification(x):
-    pic = x
-    #Send Push notification to Phone
+    def sendNot(self, pic):
+        url = "https://www.pushsafer.com/api"
+        post_fields = {
+            "t" : "Alert",                           # Message title
+            "m" : "Motion detected pic for details", # Message text
+            "s" : "0",                               # Sound number 0-28
+            "v" : "1",                               # Vibration number 0-3
+            "i" : "1",                               # Icon number 1-98
+            "c" : "",                                # Icon color
+            "d" : "29780",                           # Device number
+            "u" : "https://www.pushsafer.com",       # URL
+            "ut" : "Open Pushsafer",                 # URL title
+            "k" : self.key,                          # Your private key
+            "p" : pic                                # Base64-encoded string
+        }
+        request = Request(url, urlencode(post_fields).encode())
+        json = urlopen(request).read().decode()
+        print("Push notification sent to registered device.")
 
-    Client("").send_message("Motion Detected Sensor: Main",
-                        "Alert",
-                        "29780",
-                        "1",
-                        "0",
-                        "1",
-                        "https://www.pushsafer.com",
-                        "Open Pushsafer",
-                        "0",
-                        "0",
-                        "120",
-                        "1200",
-                        "0",
-                        pic,
-                        "",
-                        "")
+    # Encode an image as a base64 string, as this is the format that Pushsafer
+    # recognizes when sending images to phones via notification.
+    #
+    # Input: A frame captured from a webcam using the OpenCV library.
+    # Output: The input frame as a base64 string.
+    def encodeImage(self, pic):
+        retval, buffer = cv2.imencode('.jpg', pic)
+        b64_string = base64.b64encode(buffer)
+
+        return(self.formatString.format(b64_string.decode('utf-8')))

@@ -2,6 +2,6 @@
 
 <div class="navwrapper">
 	<a href="main.php">Video Feed</a>
+	<span> | </span>
 	<a href="settings.php">General Settings</a>
-	<a href="users.php">User Management</a>
 </div>

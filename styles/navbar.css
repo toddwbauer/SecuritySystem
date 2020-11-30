@@ -23,3 +23,7 @@ a:link {
 a:visited {
 	color: #000000;
 }
+
+span {
+	font-size: 34px;
+}
